@@ -15,7 +15,7 @@ shasum is perl shasum command by golang.
 
 
 ## License
-[MIT][License]
+[MIT](LICENSE)
 
 ## Author
 
