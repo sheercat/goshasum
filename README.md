@@ -1,0 +1,4 @@
+# goshasum
+
+# License
+MIT
