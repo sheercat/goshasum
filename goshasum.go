@@ -5,6 +5,7 @@ import (
 	"crypto/sha1"
 	"crypto/sha256"
 	"crypto/sha512"
+	"errors"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -29,12 +30,17 @@ func main() {
 			fmt.Println(err)
 			continue
 		}
-		sum := shasum(&data, *algorithm)
+		sum, err := shasum(&data, *algorithm)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
 		fmt.Printf("%x\t%s\n", sum, file)
 	}
 }
 
-func shasum(data *[]byte, algorithm string) (sum interface{}) {
+func shasum(data *[]byte, algorithm string) (interface{}, error) {
+	var sum interface{}
 	switch strings.ToLower(algorithm) {
 	case "md5":
 		sum = md5.Sum(*data)
@@ -52,6 +58,8 @@ func shasum(data *[]byte, algorithm string) (sum interface{}) {
 		sum = sha512.Sum512_224(*data)
 	case "512256":
 		sum = sha512.Sum512_256(*data)
+	default:
+		return nil, errors.New("unsupported algorithm")
 	}
-	return
+	return sum, nil
 }
