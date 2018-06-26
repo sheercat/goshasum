@@ -14,6 +14,7 @@ import (
 
 var (
 	doHelp    = flag.Bool("h", false, "help")
+	isIgnore  = flag.Bool("i", false, "ignore print filename")
 	algorithm = flag.String("a", "1", "algorithm md5, 1, 224, 256, 384, 512, 512224, 512256")
 )
 
@@ -35,7 +36,11 @@ func main() {
 			fmt.Println(err)
 			continue
 		}
-		fmt.Printf("%x\t%s\n", sum, file)
+		if *isIgnore {
+			fmt.Printf("%x", sum)
+		} else {
+			fmt.Printf("%x\t%s\n", sum, file)
+		}
 	}
 }
 
